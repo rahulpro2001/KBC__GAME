@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+  <title>KBC</title>
+</head>
+
+<body>
+
+  <style>
+    .data-container {
+      width: 250px;
+      height: 260px;
+      position: relative;
+      margin-top: auto;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .bar {
+      width: 28px;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      background-color: rgb(0, 183, 255);
+      transition: 0.2s all ease;
+    }
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+    crossorigin="anonymous"></script>
+  <div class="row bg-full " style="position: absolute; top:0; left:0; width: 100%; height: 100%;">
+    <div class="col-9 bg-light " style="height: 100%; align-items: center;">
+
+      <div class="mt-5 text-center text-light" id='timerSlot'
+        style="display: block; margin-left: auto; margin-right: auto; height:45px; width:90px; border-radius: 90px 90px 0 0; background: #3c1053 ; font-size: large;">
+      </div>
+      <div class="card  text-center row col-11 text-light" id="QId"
+        style=" margin-left: auto; margin-right: auto; height: 90px; background-color: #3c1053 ; border-radius: 4px 30px; font-size: larger; ">
+        Q. This is a Sample Question
+      </div>
+
+      <div class="row mx-4">
+        <button class="btn col-sm-5 card my-2 text-light" id="OptionA" onclick="clicked('OptionA')"
+          style="margin-left: auto; margin-right: auto; height: 50px; background-color: #3c1053 ;  border-radius: 1px 13px; font-size: larger;">
+          A. Option A
+        </button>
+        <button class="btn col-sm-5 card  my-2 text-light" id="OptionB" onclick="clicked('OptionB')"
+          style="margin-left: auto; margin-right: auto; height: 50px; background-color: #3c1053 ;  border-radius: 1px 13px; font-size: larger;">
+          B. Option B
+        </button>
+      </div>
+      <div class="row mx-4">
+        <button class="btn col-sm-5 card text-light mb-2" id="OptionC" onclick="clicked('OptionC')"
+          style="margin-left: auto; margin-right: auto; height: 50px; background-color: #3c1053 ;  border-radius: 1px 13px; font-size: larger;">
+          C. Option C
+        </button>
+        <button class="btn col-sm-5 card text-light mb-2" id="OptionD" onclick="clicked('OptionD')"
+          style="margin-left: auto; margin-right: auto; height: 50px; background-color: #3c1053 ;  border-radius: 1px 13px; font-size: larger;">
+          D. Option D
+        </button>
+      </div>
+      <div class="row mx-4 mt-5 text-center">
+        <button class="btn col-sm-5 card my-2 text-light" id="lckBtn" disabled onclick="clickedlck()"
+          style="margin-left: auto; margin-right: auto; height: 50px; background-image:linear-gradient(to right,#ffb347,#ffcc33);  border-radius: 1px 13px; font-size: larger;">
+          Lock
+        </button>
+        <button class="btn col-sm-5 card  my-2 text-light" id="quitBtn" onclick="clickedQuit()" data-bs-toggle="modal"
+          data-bs-target="#quitBtnModal"
+          style="margin-left: auto; margin-right: auto; height: 50px; background-image:linear-gradient(to right,#ED213A,#93291e);  border-radius: 1px 13px; font-size: larger;">
+          Quit
+        </button>
+      </div>
+
+    </div>
+
+    <div class="col-3 " style="background-color:#3c1053 ; height: 100%;">
+      <div class="row text-centre">
+        <button class="col-lg-3 btn  thumb" id="50-50">
+          <img class="img-responsive btn" id="50-50img" onclick="rem50()" style="width: 130%;"
+            src="./img/fifty_fifty.png">
+        </button>
+        <button class="col-lg-3 btn  thumb" id="audiencePoll" data-bs-toggle="modal"
+          data-bs-target="#audiencePollModal">
+          <img class="img-responsive btn" id="audiencePoll-img" style="width: 120%;" onclick="audiencePoll()"
+            src="./img/audience_poll.png" alt="">
+        </button>
+        <button class="col-lg-3 btn thumb" id="flipTheQuestion">
+          <img class="img-responsive btn" style="width: 120%;" onclick="flipTheQuestion()" id='flipTheQuestion-img'
+            src="./img/flip_the_question.png" alt="">
+        </button>
+        <button class="col-lg-3 btn thumb" id="askTheExpert" data-bs-toggle="modal" data-bs-target="#askTheExpertModal">
+          <img class="img-responsive btn" id="askTheExpert-img" style="width: 120%;" onclick="askTheExpert()"
+            src="./img/ask_the_expert.png" alt="">
+        </button>
+        <div class="container my-5 mx-5 text-centre text-light">
+
+          <h6 style="margin-bottom: -30px; color: #fdc830;">
+            <pre><strong> 16   <svg xmlns="http://www.w3.org/2000/svg" id="dot16"  width="40" height="40" fill="currentColor" style="color:white;" class="bi bi-dot" viewBox="0 0 16 16">
+                    <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                  </svg>          7 Crore</strong></pre>
+          </h6>
+          <h6 style="margin-bottom: -30px; color: #daa520;">
+            <pre> 15   <svg xmlns="http://www.w3.org/2000/svg" id="dot15"  width="40"  height="40" fill="currentColor" style="color:white;" class="bi bi-dot" viewBox="0 0 16 16">
+                    <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                  </svg>          1 Crore</pre>
+          </h6>
+          <h6 style="margin-bottom: -30px; color: #daa520;">
+            <pre> 14   <svg xmlns="http://www.w3.org/2000/svg" id="dot14"  width="40"  height="40" fill="currentColor" style="color:white;" class="bi bi-dot" viewBox="0 0 16 16">
+                    <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                  </svg>          50,00,000</pre>
+          </h6>
+          <h6 style="margin-bottom: -30px; color: #daa520;">
+            <pre> 13   <svg xmlns="http://www.w3.org/2000/svg" id="dot13"  width="40"  height="40" fill="currentColor" style="color:white;" class="bi bi-dot" viewBox="0 0 16 16">
+                    <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                  </svg>          25,00,000</pre>
+          </h6>
+          <h6 style="margin-bottom: -30px; color: #daa520;">
+            <pre> 12   <svg xmlns="http://www.w3.org/2000/svg" id="dot12"  width="40"  height="40" fill="currentColor" style="color:white;" class="bi bi-dot" viewBox="0 0 16 16">
+                    <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                  </svg>          12,50,000</pre>
+          </h6>
+          <h6 style="margin-bottom: -30px; color: #daa520;">
+            <pre> 11   <svg xmlns="http://www.w3.org/2000/svg" id="dot11"  width="40"  height="40" fill="currentColor" style="color:white;" class="bi bi-dot" viewBox="0 0 16 16">
+                    <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                  </svg>          6,40,000</pre>
+          </h6>
+          <h6 style="margin-bottom: -30px;">
+            <pre> 10   <svg xmlns="http://www.w3.org/2000/svg" id="dot10"  width="40"  height="40" fill="currentColor" style="color:white;" class="bi bi-dot" viewBox="0 0 16 16">
+                    <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                  </svg>          3,20,000</pre>
+          </h6>
+          <h6 style="margin-bottom: -30px; color: #daa520;">
+            <pre> 9    <svg xmlns="http://www.w3.org/2000/svg" id="dot9"  width="40"  height="40" fill="currentColor" style="color:white;" class="bi bi-dot" viewBox="0 0 16 16">
+                    <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                  </svg>          1,60,000</pre>
+          </h6>
+          <h6 style="margin-bottom: -30px; color: #daa520;">
+            <pre> 8    <svg xmlns="http://www.w3.org/2000/svg" id="dot8"  width="40"  height="40" fill="currentColor" style="color:white;" class="bi bi-dot" viewBox="0 0 16 16">
+                    <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                  </svg>          80,000</pre>
+          </h6>
+          <h6 style="margin-bottom: -30px; color: #daa520;">
+            <pre> 7    <svg xmlns="http://www.w3.org/2000/svg" id="dot7"  width="40"  height="40" fill="currentColor" style="color:white;" class="bi bi-dot" viewBox="0 0 16 16">
+                    <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                  </svg>          40,000</pre>
+          </h6>
+          <h6 style="margin-bottom: -30px; color: #daa520;">
+            <pre> 6    <svg xmlns="http://www.w3.org/2000/svg" id="dot6"  width="40"  height="40" fill="currentColor" style="color:white;" class="bi bi-dot" viewBox="0 0 16 16">
+                    <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                  </svg>          20,000</pre>
+          </h6>
+          <h6 style="margin-bottom: -30px;">
+            <pre> 5    <svg xmlns="http://www.w3.org/2000/svg" id="dot5"  width="40"  height="40" fill="currentColor" style="color:white;" class="bi bi-dot" viewBox="0 0 16 16">
+                    <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                  </svg>          10,000</pre>
+          </h6>
+          <h6 style="margin-bottom: -30px; color: #daa520;">
+            <pre> 4    <svg xmlns="http://www.w3.org/2000/svg" id="dot4"  width="40"  height="40" fill="currentColor" style="color:white;" class="bi bi-dot" viewBox="0 0 16 16">
+                    <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                  </svg>          5,000</pre>
+          </h6>
+          <h6 style="margin-bottom: -30px; color: #daa520;">
+            <pre> 3    <svg xmlns="http://www.w3.org/2000/svg" id="dot3"  width="40"  height="40" fill="currentColor" style="color:white;" class="bi bi-dot" viewBox="0 0 16 16">
+                    <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                  </svg>          3,000</pre>
+          </h6>
+          <h6 style="margin-bottom: -30px; color: #daa520;">
+            <pre> 2    <svg xmlns="http://www.w3.org/2000/svg" id="dot2"  width="40"  height="40" fill="currentColor" style="color:white;" class="bi bi-dot" viewBox="0 0 16 16">
+                    <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                  </svg>          2,000</pre>
+          </h6>
+          <h6 style="margin-bottom: -30px; color: #daa520;">
+            <pre> 1    <svg xmlns="http://www.w3.org/2000/svg" id='dot1' width="40"  height="40" fill="currentColor" style="color:white;" class="bi bi-dot" viewBox="0 0 16 16">
+                    <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                  </svg>          1,000</pre>
+          </h6>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="modal fade" id="askTheExpertModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: #3c1053;">
+          <h5 class="modal-title" style="color: rgb(255, 255, 255);" id="exampleModalLabel">Ask the expert!
+          </h5>
+        </div>
+        <div class="modal-body" style="text-align: center; background-color: whitesmoke;">
+          <img src="./img/ask_the_expert.png" />
+
+          <div class="text-center">
+            <p>
+              <strong>Acc to me, correct answer is:</strong>
+              <strong id="expertAns">OP</strong>
+            </p>
+            <p>
+              <strong>I think you should go with this answer, best of luck!!</strong>
+            </p>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn" style="background-color:#3c1053; color:white;"
+              data-bs-dismiss="modal">Thank you!</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="quitBtnModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: #3c1053;">
+          <h5 class="modal-title text-center" style="color: rgb(255, 255, 255);" id="gameOverId">GAME OVER!!</h5>
+          <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+        </div>
+        <div class="modal-body" style="text-align: center; background-color: whitesmoke;">
+
+          <div class="text-center">
+            <p>
+              <strong id="reasonForQuit" class="text-danger">You have QUITTED the game</strong>
+            </p>
+            <p>
+              <strong>YOU HAVE WON : Rs. </strong>
+              <strong id="quitGame"></strong>
+            </p>
+          </div>
+
+          <div class="modal-footer"><a href="./index.html">
+              <button type="button" class="btn" style="background-color:#3c1053; color:white;">EXIT</button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="audiencePollModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: #3c1053;">
+          <h5 class="modal-title" style="color: rgb(255, 255, 255);" id="exampleModalLabel">Audience Poll
+          </h5>
+        </div>
+        <div class="modal-body" style="text-align: center; background-color: whitesmoke;">
+          <img src="./img/audience_poll.png" />
+
+          <section class="data-container"></section>
+
+          <div class="modal-footer">
+            <button type="button" class="btn" style="background-color:#3c1053; color:white;"
+              data-bs-dismiss="modal">Thank you!</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./index.js"></script>
+
+</body>
+
+</html>
